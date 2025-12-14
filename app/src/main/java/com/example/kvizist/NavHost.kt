@@ -11,7 +11,7 @@ fun AppNav() {
 
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("quiz") { QuizScreen() }
+        composable("quiz") { QuizScreen(navController) }
     }
 }
 
