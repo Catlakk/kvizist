@@ -29,70 +29,33 @@ import androidx.navigation.NavController
 //
 @Composable
 fun QuizScreen(navController: NavController,  viewModel: dataFromAnotherScreen) {
-    //load info from previous screens
-    Column {
-        if (viewModel.messageFromHome.isNotEmpty()) {
-            Text("Message from Quiz: ${viewModel.messageFromHome}")
-        }
-    }
-
     //set up question holder
-    var questionHolder = mutableListOf<QuizQuestion>()
+    val questionHolder = mutableListOf<QuizQuestion>()
 
     //load questions from local files
-    testLoad(questionHolder) //hardwired, just for testing
+    testLoad(questionHolder, viewModel.messageFromHome!!) //hardwired, just for testing
 
     //start the quiz
     ActiveQuiz(questionHolder, navController, viewModel)
 }
 
-fun testLoad(questionHolder: MutableList<QuizQuestion>)
+fun testLoad(questionHolder: MutableList<QuizQuestion>, quizMode: QuizMode)
 {
-    val tempList = listOf<String>("a", "b", "c")
-    var i = 0
-    questionHolder.add(QuizQuestion(
-        i++,
-        "q$i",
-        "correct",
-        listOf<String>("a", "b", "c", "d"),
-        "single",
-        1,
-        "testSubject",
-        2,
+    //sort files to load by subject and lecture
+    //sort files to load by quiz mode
+
+    for (i in  1..quizMode.numberOfQuestions){
+
+        questionHolder.add(QuizQuestion(i,
+            "q$i",
+            "correct",
+            listOf<String>("a", "b", "c", "d"),
+            "single",
+            1,
+            "testSubject",
+            2,
         ))
-    questionHolder.add(QuizQuestion(
-        i++,
-        "q$i",
-        "correct",
-        listOf<String>("a", "b", "c", "d"),
-        "multiple",
-        1,
-        "testSubject",
-        2,
-    ))
-    questionHolder.add(QuizQuestion(
-        i++,
-        "q$i",
-        "correct",
-        listOf<String>("a", "b", "c", "d"),
-        "flashcard",
-        1,
-        "testSubject",
-        2,
-    ))
-    questionHolder.add(QuizQuestion(
-        i++,
-        "q$i",
-        "correct",
-        listOf<String>("a", "b", "c", "d"),
-        "connect",
-        1,
-        "testSubject",
-        2,
-    ))
-
-
-
+    }
 }
 
 @Composable
@@ -133,7 +96,7 @@ fun ActiveQuiz(
             // Next button
             Button(onClick = {
                 if (position >= questionHolder.size - 1) {
-                    viewModel.messageFromQuiz = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    //viewModel.messageFromQuiz = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                     navController.navigate("home") {
                         popUpTo("activeQuiz") { inclusive = true }
                     }

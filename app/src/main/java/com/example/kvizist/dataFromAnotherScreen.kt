@@ -6,6 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class dataFromAnotherScreen : ViewModel(){
-    var messageFromHome by mutableStateOf("")
-    var messageFromQuiz by mutableStateOf("")
+    var messageFromHome by mutableStateOf<QuizMode?>(null)
+    var messageFromQuiz by mutableStateOf<QuizQuestion?>(null)
 }

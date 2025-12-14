@@ -8,20 +8,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: dataFromAnotherScreen) {
+fun ModuleScreen(navController: NavController, viewModel: dataFromAnotherScreen) {
+    Column {
+        if (viewModel.messageFromQuiz != null) {
+            Text("Message from Quiz: ${viewModel.messageFromQuiz}")
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
         Button(onClick = {
-            navController.navigate("module") })
+            val questionTypes = listOf<String>("single")
+            var quizMode = QuizMode(
+                5, // treba pazit na max number of qustions
+                questionTypes
+            )
+            viewModel.messageFromHome = quizMode
+            navController.navigate("quiz") })
         {
-        Text("Go to Module")
-    }}
+            Text("Take a Quiz")
+        }}
 }
-
