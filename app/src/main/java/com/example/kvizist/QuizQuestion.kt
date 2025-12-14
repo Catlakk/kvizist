@@ -17,6 +17,12 @@ class QuizQuestion(
         repeat(possibleAnswers.size) { add(false) }
     }
     /**
+     *
+     *  fun checkAnswer(userAnswer: List<String>) {
+     *         val correctAnswers = correctAnswer.split(" ")
+     *         score = userAnswer.count { it in correctAnswers }
+     *     }
+     *
     fun checkAnswer(userAnswer: List<String>)
     {
         var temp = 0

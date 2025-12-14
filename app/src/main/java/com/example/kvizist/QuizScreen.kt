@@ -16,64 +16,90 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 //
 @Composable
-fun QuizScreen(navController: NavController) {
+fun QuizScreen(navController: NavController,  viewModel: dataFromAnotherScreen) {
+    //load info from previous screens
+    Column {
+        if (viewModel.messageFromHome.isNotEmpty()) {
+            Text("Message from Quiz: ${viewModel.messageFromHome}")
+        }
+    }
+
     //set up question holder
     var questionHolder = mutableListOf<QuizQuestion>()
 
     //load questions from local files
-    testLoad(questionHolder)
+    testLoad(questionHolder) //hardwired, just for testing
 
     //start the quiz
-    ActiveQuiz(questionHolder, navController)
+    ActiveQuiz(questionHolder, navController, viewModel)
 }
 
 fun testLoad(questionHolder: MutableList<QuizQuestion>)
 {
     val tempList = listOf<String>("a", "b", "c")
-    for (i in 0..2){
-        val q = QuizQuestion(
-            i+1,
-            "q$i",
-            "correct",
-            tempList,
-            "single",
-            1,
-            "testSubject",
-            2,
-        )
-        questionHolder.add(q)
-    }
-    val tempList2 = listOf<String>("a")
-    val p = QuizQuestion(
-        1,
-        "q6",
+    var i = 0
+    questionHolder.add(QuizQuestion(
+        i++,
+        "q$i",
         "correct",
-        tempList2,
+        listOf<String>("a", "b", "c", "d"),
         "single",
         1,
         "testSubject",
         2,
-    )
-    questionHolder.add(p)
+        ))
+    questionHolder.add(QuizQuestion(
+        i++,
+        "q$i",
+        "correct",
+        listOf<String>("a", "b", "c", "d"),
+        "multiple",
+        1,
+        "testSubject",
+        2,
+    ))
+    questionHolder.add(QuizQuestion(
+        i++,
+        "q$i",
+        "correct",
+        listOf<String>("a", "b", "c", "d"),
+        "flashcard",
+        1,
+        "testSubject",
+        2,
+    ))
+    questionHolder.add(QuizQuestion(
+        i++,
+        "q$i",
+        "correct",
+        listOf<String>("a", "b", "c", "d"),
+        "connect",
+        1,
+        "testSubject",
+        2,
+    ))
+
+
+
 }
 
 @Composable
 fun ActiveQuiz(
     questionHolder: List<QuizQuestion>,
-    navController: NavController
+    navController: NavController,
+    viewModel: dataFromAnotherScreen
 ) {
     var position by remember { mutableIntStateOf(0) }
 
@@ -107,6 +133,7 @@ fun ActiveQuiz(
             // Next button
             Button(onClick = {
                 if (position >= questionHolder.size - 1) {
+                    viewModel.messageFromQuiz = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                     navController.navigate("home") {
                         popUpTo("activeQuiz") { inclusive = true }
                     }
@@ -114,7 +141,10 @@ fun ActiveQuiz(
                     position++
                 }
             }) {
-                Text("Next")
+                if (position >= questionHolder.size - 1)
+                    Text("End")
+                else
+                    Text("Next")
             }
         }
     }
