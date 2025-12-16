@@ -23,14 +23,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
-//
+
 @Composable
-fun QuizScreen(navController: NavController,  viewModel: dataFromAnotherScreen) {
+fun QuizScreen(navController: NavController,  viewModel: DataFromAnotherScreen) {
     //set up question holder
-    val questionHolder = mutableListOf<QuizQuestion>()
+    val questionHolder = mutableListOf<Question>()
 
     //load questions from local files
     testLoad(questionHolder, viewModel.messageFromHome!!) //hardwired, just for testing
@@ -39,14 +38,11 @@ fun QuizScreen(navController: NavController,  viewModel: dataFromAnotherScreen) 
     ActiveQuiz(questionHolder, navController, viewModel)
 }
 
-fun testLoad(questionHolder: MutableList<QuizQuestion>, quizMode: QuizMode)
+fun testLoad(questionHolder: MutableList<Question>, quizMode: QuizMode)
 {
-    //sort files to load by subject and lecture
-    //sort files to load by quiz mode
-
     for (i in  1..quizMode.numberOfQuestions){
 
-        questionHolder.add(QuizQuestion(i,
+        questionHolder.add(Question(i,
             "q$i",
             "correct",
             listOf<String>("a", "b", "c", "d"),
@@ -60,9 +56,9 @@ fun testLoad(questionHolder: MutableList<QuizQuestion>, quizMode: QuizMode)
 
 @Composable
 fun ActiveQuiz(
-    questionHolder: List<QuizQuestion>,
+    questionHolder: List<Question>,
     navController: NavController,
-    viewModel: dataFromAnotherScreen
+    viewModel: DataFromAnotherScreen
 ) {
     var position by remember { mutableIntStateOf(0) }
 
@@ -96,7 +92,6 @@ fun ActiveQuiz(
             // Next button
             Button(onClick = {
                 if (position >= questionHolder.size - 1) {
-                    //viewModel.messageFromQuiz = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                     navController.navigate("home") {
                         popUpTo("activeQuiz") { inclusive = true }
                     }
@@ -117,7 +112,7 @@ fun ActiveQuiz(
 fun LabeledPrettyCheckbox(
     text: String,
     index: Int,
-    question: QuizQuestion
+    question: Question
 ) {
     Row(
         modifier = Modifier

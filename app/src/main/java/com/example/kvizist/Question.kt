@@ -2,7 +2,7 @@ package com.example.kvizist
 
 import androidx.compose.runtime.mutableStateListOf
 
-class QuizQuestion(
+class Question(
     val index: Int, //redni broj pitanja
     val question: String,
     var correctAnswer: String,
