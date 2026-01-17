@@ -1,17 +1,11 @@
-
 package com.example.kvizist
 
 import android.content.Context
-import com.example.kvizist.FlashcardQuestion
-import com.example.kvizist.ImageQuestion
-import com.example.kvizist.MCQuestion
-import com.example.kvizist.Question
-import com.example.kvizist.TFQuestion
 import org.json.JSONArray
 
 object QuestionLoader {
 
-    fun load(context: Context): List<Question> {
+    fun load(context: Context): List<Question> { //daodat u atribute funkcije lenght od strane korisnika
         val text = context.assets.open("quiz.json")
             .bufferedReader()
             .use { it.readText() }
@@ -19,7 +13,7 @@ object QuestionLoader {
         val json = JSONArray(text)
         val out = mutableListOf<Question>()
 
-        for (i in 0 until json.length()) {
+        for (i in 0 until json.length()) {  // umjesto json.lenght stavija bi odabrani lenght od strane korisnika do max json.lenght
             val obj = json.getJSONObject(i)
             val type = obj.getString("type")
 
