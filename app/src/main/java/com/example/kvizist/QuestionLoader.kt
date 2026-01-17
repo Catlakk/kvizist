@@ -61,6 +61,8 @@ object QuestionLoader {
                     val options = List(optionsArray.length()) { idx ->
                         optionsArray.getString(idx)
                     }
+
+
                     out.add(
                         ImageQuestion(
                             type = type,
@@ -74,8 +76,7 @@ object QuestionLoader {
                 }
 
                 else -> {
-                    // Unknown type: skip or throw
-                    // throw IllegalArgumentException("Unknown question type: $type")
+                    // Unknown type:
                 }
             }
         }

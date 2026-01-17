@@ -23,7 +23,7 @@
     "type": "IMAGE",
     "lesson": 3,
     "question": "Which is a cat?",
-    "imageUrl": "cat.png",
+    "imageUrl": "cat",
     "options": ["Dog", "Cat", "Bird"],
     "correctIndex": 1
   }
