@@ -1,0 +1,30 @@
+
+[
+  {
+    "type": "MC",
+    "lesson": 1,
+    "question": "What is 2 + 2?",
+    "options": ["3", "4", "5"],
+    "correctIndex": 1
+  },
+  {
+    "type": "TF",
+    "lesson": 1,
+    "question": "The sky is blue",
+    "correct": true
+  },
+  {
+    "type": "FLASHCARD",
+    "lesson": 2,
+    "question": "What is Scrum?",
+    "answer": "An agile framework"
+  },
+  {
+    "type": "IMAGE",
+    "lesson": 3,
+    "question": "Which is a cat?",
+    "imageUrl": "cat.png",
+    "options": ["Dog", "Cat", "Bird"],
+    "correctIndex": 1
+  }
+]
