@@ -1,6 +1,6 @@
 
 package com.example.kvizist
-
+/*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -16,8 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.kvizist.QuestionLoader
-import com.example.kvizist.Question
 
 @Composable
 fun ParsingCheckScreen() {
@@ -53,3 +51,4 @@ fun ParsingCheckScreen() {
         }
     }
 }
+*/

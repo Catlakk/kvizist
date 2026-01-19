@@ -10,4 +10,5 @@ class SessionData : ViewModel(){
     var selectedSubject by mutableStateOf<String?>(null)
     var quizMode by mutableStateOf<QuizMode?>(null)
     var quizManager by mutableStateOf<QuizManager?>(null)
+
 }
