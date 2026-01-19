@@ -1,14 +1,15 @@
+
 package com.example.kvizist
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class SessionData : ViewModel(){
-    var accountInfo by mutableStateOf<AccountInfo?>(null)
+class SessionData : ViewModel() {
     var selectedSubject by mutableStateOf<String?>(null)
-    var quizMode by mutableStateOf<QuizMode?>(null)
-    var quizManager by mutableStateOf<QuizManager?>(null)
-
+    var correctCount by mutableIntStateOf(0)
+    var incorrectCount by mutableIntStateOf(0)
 }
+

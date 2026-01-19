@@ -1,3 +1,4 @@
+
 package com.example.kvizist
 
 import android.content.Context
@@ -5,7 +6,7 @@ import org.json.JSONArray
 
 object QuestionLoader {
 
-    fun load(context: Context): List<Question> { //daodat u atribute funkcije lenght od strane korisnika
+    fun load(context: Context): List<Question> {
         val text = context.assets.open("quiz.json")
             .bufferedReader()
             .use { it.readText() }
@@ -13,10 +14,9 @@ object QuestionLoader {
         val json = JSONArray(text)
         val out = mutableListOf<Question>()
 
-        for (i in 0 until json.length()) {  // umjesto json.lenght stavija bi odabrani lenght od strane korisnika do max json.lenght
+        for (i in 0 until json.length()) {
             val obj = json.getJSONObject(i)
             val type = obj.getString("type")
-
             when (type) {
                 "MC" -> {
                     val optionsArray = obj.getJSONArray("options")
@@ -33,7 +33,6 @@ object QuestionLoader {
                         )
                     )
                 }
-
                 "TF" -> {
                     out.add(
                         TFQuestion(
@@ -44,7 +43,6 @@ object QuestionLoader {
                         )
                     )
                 }
-
                 "FLASHCARD" -> {
                     out.add(
                         FlashcardQuestion(
@@ -55,31 +53,10 @@ object QuestionLoader {
                         )
                     )
                 }
-
-                "IMAGE" -> {
-                    val optionsArray = obj.getJSONArray("options")
-                    val options = List(optionsArray.length()) { idx ->
-                        optionsArray.getString(idx)
-                    }
-
-
-                    out.add(
-                        ImageQuestion(
-                            type = type,
-                            lesson = obj.getInt("lesson"),
-                            question = obj.getString("question"),
-                            imageUrl = obj.getString("imageUrl"),
-                            options = options,
-                            correctIndex = obj.getInt("correctIndex")
-                        )
-                    )
-                }
-
-                else -> {
-                    // Unknown type:
-                }
+                else -> {}
             }
         }
+
         return out
     }
 }

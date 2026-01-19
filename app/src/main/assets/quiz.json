@@ -3,28 +3,25 @@
   {
     "type": "MC",
     "lesson": 1,
-    "question": "What is 2 + 2?",
-    "options": ["3", "4", "5"],
+    "question": "Koji su principi agilnih metoda?",
+    "options": [
+      "Strogo odvojene faze, Jednostavnost",
+      "Kompliciranje, Ljudi umjesto procesa",
+      "Uključenost korisnika, Inkrementalne isporuke",
+      "Jako detaljna dokumentacija, Prihvaćanje promjena"
+    ],
     "correctIndex": 1
   },
   {
     "type": "TF",
     "lesson": 1,
-    "question": "The sky is blue",
-    "correct": true
+    "question": "Product Owner osigurava da tim na efikasan način koristi Scrum metodu?",
+    "correct": false
   },
   {
     "type": "FLASHCARD",
     "lesson": 2,
-    "question": "What is Scrum?",
-    "answer": "An agile framework"
-  },
-  {
-    "type": "IMAGE",
-    "lesson": 3,
-    "question": "Which is a cat?",
-    "imageUrl": "cat",
-    "options": ["Dog", "Cat", "Bird"],
-    "correctIndex": 1
+    "question": "Što su to korisnički zahtjevi?",
+    "answer": "Zahtjevi koji se pišu za korisnika, tako da ih on razumije."
   }
 ]

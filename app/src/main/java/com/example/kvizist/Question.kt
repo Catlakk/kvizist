@@ -29,11 +29,3 @@ data class FlashcardQuestion(
     val answer: String
 ) : Question()
 
-data class ImageQuestion(
-    override val type: String,
-    override val lesson: Int,
-    override val question: String,
-    val imageUrl: String,
-    val options: List<String>,
-    val correctIndex: Int
-) : Question()
