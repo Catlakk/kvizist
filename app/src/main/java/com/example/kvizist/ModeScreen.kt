@@ -1,6 +1,8 @@
 package com.example.kvizist
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -60,6 +62,7 @@ fun ModeScreen(navController: NavController, sessionData: SessionData){
 */
 @Composable
 fun ModeScreen(navController: NavController, sessionData: SessionData) {
+    //var selectedIndex by remember { mutableStateOf(1) }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -163,92 +166,174 @@ fun FilterCard() {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ButtonFlowRow() {
+    val counter = 5
+    var selectedIndex by remember { mutableStateOf(1) } // first selected
+
     FlowRow(
         modifier = Modifier.padding(16.dp),
-        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
-        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        val counter = 5
         for (index in 1..counter) {
-            Button(onClick = {}) {
-                Text("Button $index")
+            Button(
+                onClick = { selectedIndex = index },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedIndex == index)
+                        Color(0xFF1E88E5) // selected (blue)
+                    else
+                        Color(0xFFE0E0E0) // unselected (gray)
+                )
+            ) {
+                Text(
+                    text = "Button $index",
+                    color = if (selectedIndex == index)
+                        Color.White
+                    else
+                        Color.Black
+                )
             }
-
         }
-        Button(onClick = {}) {
-            Text("Add")}
+
+        // Add button (not part of selection)
+        Button(
+            onClick = { /* add action */ },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF5BBFA7)
+            )
+        ) {
+            Text("Add", color = Color.White)
+        }
     }
 }
 
+
+
 @Composable
 fun ContentList(index: Int) {
-    var shadowActive by remember { mutableStateOf(false) }
-    var checked by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    val lessons = (8..13).map { "Lekcija $it" }
+
+    var checked by remember {
+        mutableStateOf<Set<Int>>(emptySet())
+    }
+
+
     Box(
-        modifier = Modifier.wrapContentSize()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
-        // Shadow card
+
+        // Shadow
         Card(
             modifier = Modifier
                 .matchParentSize()
                 .offset(x = 8.dp, y = 8.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF002F5B)
+                containerColor = Color(0xFF0A7F89)
             ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-        ) {
-            if(shadowActive){
-                repeat(10) {
-                    Checkbox(
-                        checked = checked,
-                        onCheckedChange = { checked = it },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color.White,
-                            checkmarkColor = Color(0xFF2E9F8F)
+            elevation = CardDefaults.cardElevation(0.dp),
+            shape = RoundedCornerShape(16.dp)
+        ) {}
+        Column() {
+            // Main card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize(),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(0.dp)
+            ) {
+                Column {
+
+                    // HEADER (top green button)
+                    Button(
+                        onClick = { expanded = !expanded },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(
+                            topStart = 16.dp,
+                            topEnd = 16.dp,
+                            bottomStart = if (expanded) 0.dp else 16.dp,
+                            bottomEnd = if (expanded) 0.dp else 16.dp
+                        ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF5BBFA7)
                         )
+                    ) {
+                        Text(
+                            text = "Drugi dio",
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Checkbox(
+                            checked = checked.size == lessons.size,
+                            onCheckedChange = { isChecked ->
+                                checked = if (isChecked) {
+                                    lessons.indices.toSet()   // check all
+                                } else {
+                                    emptySet()                // uncheck all
+                                }
+                            },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = Color.White,
+                                uncheckedColor = Color.White,
+                                checkmarkColor = Color(0xFF2E9F8F)
+                            )
+                        )
+                    }
+                }
+            }
+            // EXPANDED CONTENT
+            if (expanded) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        //.background(Color(0xFF0A7F89))
+                        .padding(vertical = 12.dp)
+                        .offset(x = 8.dp, y = 8.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(0.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Transparent
                     )
+                ) {
+                    lessons.forEachIndexed { i, lesson ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "${i + 8}. $lesson",
+                                color = Color.White,
+                                modifier = Modifier.weight(1f),
+                                fontSize = 15.sp
+                            )
+                            Checkbox(
+                                checked = checked.contains(i),
+                                onCheckedChange = {
+                                    checked = checked.toMutableSet().also {
+                                        if (it.contains(i)) it.remove(i) else it.add(i)
+                                    }
+                                },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = Color.White,
+                                    uncheckedColor = Color.White,
+                                    checkmarkColor = Color(0xFF2E9F8F)
+                                )
+                            )
+                        }
+                    }
                 }
             }
 
         }
-        Button( onClick = {shadowActive = !shadowActive},
-            modifier = Modifier
-                .width(350.dp)
-                .padding(vertical = 6.dp)
-                .background(
-                    color = Color(0xFF2E9F8F),
-                    shape = RoundedCornerShape(12.dp)
-                ),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Color(0xFF002F5B)
-            )
-
-        ) {
-            Text(
-                text = "Broj $index",
-                color = Color.White,
-                modifier = Modifier.weight(1f),
-                fontSize = 16.sp
-            )
-            Checkbox(
-                checked = checked,
-                onCheckedChange = { checked = it  },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color.White,
-                    checkmarkColor = Color(0xFF2E9F8F)
-                )
-            )
-        }
-
-
     }
 
+    Spacer(modifier = Modifier.height(24.dp))
 }
-
-
-
-
 
 @Composable
 fun NavHostTestForMode(navController: NavController){
